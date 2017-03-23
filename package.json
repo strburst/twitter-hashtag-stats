@@ -1,0 +1,42 @@
+{
+  "name": "twitter-hashtag-stats",
+  "version": "0.0.1",
+  "description": "App for computing some interesting stats about hashtags using Twitter's API",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "lint": "eslint .",
+    "lint:fix": "eslint --fix .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/strburst/twitter-hashtag-stats.git"
+  },
+  "keywords": [
+    "twitter",
+    "hashtag",
+    "stats",
+    "statistics"
+  ],
+  "author": "Allen Zheng, Christine Shih",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/strburst/twitter-hashtag-stats/issues"
+  },
+  "homepage": "https://github.com/strburst/twitter-hashtag-stats#readme",
+  "dependencies": {
+    "debug": "^2.6.3",
+    "lodash.conforms": "^4.5.0",
+    "lodash.isobject": "^3.0.2",
+    "lodash.isstring": "^4.0.1",
+    "request": "^2.81.0",
+    "request-promise-native": "^1.0.3",
+    "twitter": "^1.7.0"
+  },
+  "devDependencies": {
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb-base": "^11.1.1",
+    "eslint-plugin-import": "^2.2.0"
+  }
+}
