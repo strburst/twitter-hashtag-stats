@@ -4,7 +4,7 @@
 /* eslint no-console: off */
 
 const { MessageTypes } = require('./util');
-const debug = require('debug')('ths:streamer');
+const debug = require('debug')('tss:streamer');
 const Twitter = require('twitter');
 
 class Streamer {
