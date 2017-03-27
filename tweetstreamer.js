@@ -19,7 +19,7 @@ class TweetStreamer {
     this.numTweets = 0;
     this.numMessages = 0;
 
-    this.stream = this.client.stream('statuses/sample?stall_warnings=true');
+    this.stream = this.client.stream('statuses/sample', { stall_warnings: true });
 
     this.stream.on('data', (message) => {
       const messageType = MessageTypes.detect(message);
@@ -42,10 +42,7 @@ class TweetStreamer {
 
         case MessageTypes.STALL_WARNING:
           debug(`Stall warning: code ${message.warning.code}, message ${message.warning.message}, `
-            + `% ${message.warning.percent_full}`);
-          break;
-
-        case MessageTypes.UNEXPECTED:
+            + `${message.warning.percent_full}%`);
           break;
 
         default:
@@ -61,13 +58,21 @@ class TweetStreamer {
     this.stream.on('end', () => {
       debug(`Processed ${this.numTweets} tweets and ${this.numMessages - this.numTweets} ` +
         'messages');
+
+      processors.forEach((processor) => {
+        processor.terminate();
+      });
     });
 
     if (timeout || timeout === 0) {
       setTimeout(() => {
-        this.stream.destroy();
+        this.terminate();
       }, timeout);
     }
+  }
+
+  terminate() {
+    this.stream.destroy();
   }
 
 }
