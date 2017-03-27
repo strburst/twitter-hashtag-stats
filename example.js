@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const TweetStreamer = require('./tweetstreamer');
 const config = require('./config');
 const debug = require('debug')('tss:example');
