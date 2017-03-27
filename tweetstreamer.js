@@ -7,7 +7,11 @@ const { MessageTypes } = require('./util');
 const debug = require('debug')('tss:streamer');
 const Twitter = require('twitter');
 
-class Streamer {
+/**
+ * Class for managing streaming API. Can easily install hooks that are invoked with each tweet
+ * received.
+ */
+class TweetStreamer {
 
   constructor({ processors, secrets, timeout }) {
     this.client = new Twitter(secrets);
@@ -15,7 +19,7 @@ class Streamer {
     this.numTweets = 0;
     this.numMessages = 0;
 
-    this.stream = this.client.stream('statuses/sample');
+    this.stream = this.client.stream('statuses/sample?stall_warnings=true');
 
     this.stream.on('data', (message) => {
       const messageType = MessageTypes.detect(message);
@@ -68,4 +72,4 @@ class Streamer {
 
 }
 
-module.exports = Streamer;
+module.exports = TweetStreamer;
