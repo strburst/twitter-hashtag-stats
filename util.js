@@ -1,3 +1,6 @@
+/**
+ * Miscellaneous utility functions/classes.
+ */
 /* eslint global-require: off, import/no-dynamic-require: off */
 
 const conforms = require('lodash.conforms');
@@ -23,7 +26,6 @@ const MessageTypes = Object.freeze({
   TWEET: 0,
   DISCONNECT: 1,
   STALL_WARNING: 2,
-  UNEXPECTED: Infinity,
 
   isTweet: conforms({
     id_str: isString,
@@ -49,7 +51,9 @@ const MessageTypes = Object.freeze({
     if (this.isStallWarning(message)) {
       return this.STALL_WARNING;
     }
-    return this.UNEXPECTED;
+
+    // Unexpected message type
+    return null;
   },
 });
 

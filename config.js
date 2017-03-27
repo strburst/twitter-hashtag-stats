@@ -1,3 +1,7 @@
+/**
+ * Attempt to read API tokens from secrets.js(on)?, then environment variables.
+ */
+
 const { ifRequire } = require('./util');
 
 module.exports = {
