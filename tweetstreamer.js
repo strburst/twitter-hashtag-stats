@@ -5,6 +5,7 @@
 
 const { MessageTypes } = require('./util');
 const debug = require('debug')('tss:streamer');
+const isFunction = require('lodash.isfunction');
 const Twitter = require('twitter');
 
 /**
@@ -15,6 +16,8 @@ class TweetStreamer {
 
   constructor({ processors, secrets, timeout }) {
     this.client = new Twitter(secrets);
+
+    this.processors = Array.isArray(processors) ? processors : [processors];
 
     this.numTweets = 0;
     this.numMessages = 0;
@@ -30,7 +33,7 @@ class TweetStreamer {
         case MessageTypes.TWEET:
           this.numTweets += 1;
 
-          processors.forEach((processor) => {
+          this.processors.forEach((processor) => {
             processor.process(message);
           });
           break;
@@ -59,8 +62,10 @@ class TweetStreamer {
       debug(`Processed ${this.numTweets} tweets and ${this.numMessages - this.numTweets} ` +
         'messages');
 
-      processors.forEach((processor) => {
-        processor.terminate();
+      this.processors.forEach((processor) => {
+        if (isFunction(processor.terminate)) {
+          processor.terminate();
+        }
       });
     });
 
