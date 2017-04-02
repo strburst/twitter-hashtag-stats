@@ -35,7 +35,7 @@ class CheckFeatures {
     this.tweetCount += 1;
   }
 
-  terminate() {
+  stop() {
     console.log(`Of ${this.tweetCount} tweets, ${this.geoCount} have exact coordinates, ` +
       `${this.placeCount} have a place associated, ${this.hashtagCount} have hashtags, and ` +
       `${this.hashtagAndPlaceCount} have both hashtags and a place`);
@@ -49,7 +49,7 @@ const stream = new TweetStreamer({
 
 function end() {
   debug('Received SIGINT or SIGTERM; stopping');
-  stream.terminate();
+  stream.stop();
 }
 
 process.on('SIGINT', end);

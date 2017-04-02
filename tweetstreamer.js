@@ -1,12 +1,11 @@
 /**
- * Background job to process tweets continually.
+ * Wrap twit package to handle tweets in a uniform way.
  */
 /* eslint no-console: off */
 
-const { MessageTypes } = require('./util');
 const debug = require('debug')('tss:streamer');
 const isFunction = require('lodash.isfunction');
-const Twitter = require('twitter');
+const Twit = require('twit');
 
 /**
  * Class for managing streaming API. Can easily install hooks that are invoked with each tweet
@@ -15,58 +14,33 @@ const Twitter = require('twitter');
 class TweetStreamer {
 
   constructor({ processors, secrets, timeout }) {
-    this.client = new Twitter(secrets);
+    this.twitter = new Twit(secrets);
 
     this.processors = Array.isArray(processors) ? processors : [processors];
 
     this.numTweets = 0;
     this.numMessages = 0;
 
-    this.stream = this.client.stream('statuses/sample', { stall_warnings: true });
+    this.stream = this.twitter.stream('statuses/sample');
 
-    this.stream.on('data', (message) => {
-      const messageType = MessageTypes.detect(message);
+    this.stream.on('tweet', (tweet) => {
+      this.numTweets += 1;
 
-      this.numMessages += 1;
-      switch (messageType) {
+      this.processors.forEach((processor) => {
+        processor.process(tweet);
+      });
+    });
 
-        case MessageTypes.TWEET:
-          this.numTweets += 1;
+    this.stream.on('disconnect', (message) => {
+      debug(`Disconnect: ${message}`);
+    });
 
-          this.processors.forEach((processor) => {
-            processor.process(message);
-          });
-          break;
-
-        case MessageTypes.DISCONNECT:
-          debug(`Disconnect message: code ${message.disconnect.code}, reason ` +
-            `${message.disconnect.reason}`);
-          break;
-
-        case MessageTypes.STALL_WARNING:
-          debug(`Stall warning: code ${message.warning.code}, message ${message.warning.message}, `
-            + `${message.warning.percent_full}%`);
-          break;
-
-        default:
-          console.error(`Unexpected message type ${message}`);
-
-      }
+    this.stream.on('reconnect', (request, response, interval) => {
+      debug(`Reconnection scheduled in ${interval}ms`);
     });
 
     this.stream.on('error', (error) => {
-      console.error(error);
-    });
-
-    this.stream.on('end', () => {
-      debug(`Processed ${this.numTweets} tweets and ${this.numMessages - this.numTweets} ` +
-        'messages');
-
-      this.processors.forEach((processor) => {
-        if (isFunction(processor.terminate)) {
-          processor.terminate();
-        }
-      });
+      console.error(`Error (code ${error.code}, HTTP ${error.statusCode}): ${error.message}`);
     });
 
     if (timeout || timeout === 0) {
@@ -76,8 +50,16 @@ class TweetStreamer {
     }
   }
 
-  terminate() {
-    this.stream.destroy();
+  stop() {
+    this.stream.stop();
+
+    debug(`Processed ${this.numTweets} tweets`);
+
+    this.processors.forEach((processor) => {
+      if (isFunction(processor.stop)) {
+        processor.stop();
+      }
+    });
   }
 
 }
