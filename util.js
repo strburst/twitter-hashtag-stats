@@ -18,6 +18,14 @@ function ifRequire(module) {
   }
 }
 
+/**
+ * Return a list of all own-properties in obj with falsy values.
+ */
+function falsyProps(obj) {
+  return Object.getOwnPropertyNames(obj).filter(prop => !obj[prop]);
+}
+
 module.exports = {
   ifRequire,
+  falsyProps,
 };
