@@ -1,9 +1,11 @@
 #!/usr/bin/env node
 /* eslint no-console: off */
 
+
 const TweetStreamer = require('./tweetstreamer');
 const config = require('./config');
 const debug = require('debug')('tss:example');
+const db = require('./db');
 
 /**
  * Store stats on whether tweets have location data and hashtags.
@@ -19,6 +21,13 @@ class CheckFeatures {
   }
 
   process(tweet) {
+    if (tweet.place) {
+      var hashtagList = tweet.entities.hashtags
+      for (var i = 0; i < hashtagList.length; i++) {
+        console.log('hashtag: ' + hashtagList[i]);
+        db.insertHashtagStats(tweet.place.country, hashtagList[i].text);
+      }
+    }
     if (tweet.geo) {
       this.placeCount += 1;
     }
