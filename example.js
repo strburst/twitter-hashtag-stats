@@ -11,7 +11,7 @@ const debug = require('debug')('tss:example');
 class CheckFeatures {
 
   constructor() {
-    this.geoCount = 0;
+    this.coordCount = 0;
     this.hashtagAndPlaceCount = 0;
     this.hashtagCount = 0;
     this.placeCount = 0;
@@ -19,8 +19,8 @@ class CheckFeatures {
   }
 
   process(tweet) {
-    if (tweet.geo) {
-      this.placeCount += 1;
+    if (tweet.coordinates) {
+      this.coordCount += 1;
     }
     if (tweet.entities.hashtags && tweet.entities.hashtags.length > 0 && tweet.place) {
       this.hashtagAndPlaceCount += 1;
@@ -36,7 +36,7 @@ class CheckFeatures {
   }
 
   stop() {
-    console.log(`Of ${this.tweetCount} tweets, ${this.geoCount} have exact coordinates, ` +
+    console.log(`Of ${this.tweetCount} tweets, ${this.coordCount} have exact coordinates, ` +
       `${this.placeCount} have a place associated, ${this.hashtagCount} have hashtags, and ` +
       `${this.hashtagAndPlaceCount} have both hashtags and a place`);
   }
