@@ -54,9 +54,8 @@ class FeatureChecker {
 class HashtagStats {
 
   constructor(db) {
-    // Definition of the HashtagStats table
     this.HashtagStats = db.define('hashtagstats', {
-      country: {
+      countryCode: {
         type: Sequelize.STRING,
         primaryKey: true,
       },
@@ -86,18 +85,15 @@ class HashtagStats {
       const hashtagList = tweet.entities.hashtags;
       for (let i = 0; i < hashtagList.length; i += 1) {
         console.log(`hashtag: ${hashtagList[i]}`);
-        this.insert(tweet.place.country, hashtagList[i].text);
+        this.insert(tweet.place.country_code, hashtagList[i].text);
       }
     }
   }
 
-  /*
-   * Inserts and/or updates hashtag statistics in HashtagStats
-   */
-  insert(country, hashtag) {
+  insert(countryCode, hashtag) {
     this.HashtagStats.find({
       where: {
-        country,
+        countryCode,
         hashtag,
       },
     }).then((stat) => {
@@ -105,7 +101,7 @@ class HashtagStats {
         stat.increment('count');
       } else {
         const data = {
-          country,
+          countryCode,
           hashtag,
         };
         this.HashtagStats.create(data).then((row) => {
