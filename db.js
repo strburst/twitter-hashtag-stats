@@ -3,6 +3,7 @@
 
 // Set up the connection with db
 const Sequelize = require('sequelize');
+const yargs = require('yargs');
 
 const db = new Sequelize('db_name', 'username', 'password', { // Change db name, username, password
   host: 'host', // Change host
@@ -130,13 +131,15 @@ function dropTweets() {
 const create = createHashtagStats;
 const drop = dropHashtagStats;
 
-require('yargs')
-  .usage('$0 <command> [args]')
-  .command('create', 'Creates the database', {}, create)
-  .command('drop', 'Deletes the database', {}, drop)
-  .demandCommand(1, 1, 'Must provide exactly one subcommand')
-  .help()
-  .argv;
+if (require.main === module) {
+  yargs
+    .usage('$0 <command> [args]')
+    .command('create', 'Creates the database', {}, create)
+    .command('drop', 'Deletes the database', {}, drop)
+    .demandCommand(1, 1, 'Must provide exactly one subcommand')
+    .help()
+    .argv;
+}
 
 module.exports = {
   insertHashtagStats,
