@@ -13,8 +13,8 @@ const Twit = require('twit');
  */
 class TweetStreamer {
 
-  constructor({ processors, secrets, timeout }) {
-    this.twitter = new Twit(secrets);
+  constructor({ processors, keys, timeout }) {
+    this.twitter = new Twit(keys);
 
     this.processors = Array.isArray(processors) ? processors : [processors];
 

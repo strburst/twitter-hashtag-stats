@@ -1,15 +1,12 @@
 #!/usr/bin/env node
 /* eslint no-unused-expressions: off */
 
-// Set up the connection with db
 const Sequelize = require('sequelize');
+const config = require('./config');
 const yargs = require('yargs');
 
-const db = new Sequelize('db_name', 'username', 'password', { // Change db name, username, password
-  host: 'host', // Change host
-  dialect: 'postgres',
-});
-
+// Set up the connection with db
+const db = new Sequelize(config.db.name, config.db.name, config.db.name, config.db);
 
 // Definition of the Tweets table
 const Tweet = db.define('tweets', {
@@ -142,5 +139,6 @@ if (require.main === module) {
 }
 
 module.exports = {
+  db,
   insertHashtagStats,
 };

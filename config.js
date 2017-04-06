@@ -4,18 +4,27 @@
 
 const { ifRequire, falsyProps } = require('./util');
 
-const secrets = Object.assign({}, {
+const custom = ifRequire('./custom');
+
+const db = Object.assign({
+  name: 'tss',
+  host: 'localhost',
+  dialect: 'postgres',
+}, custom ? custom.db : undefined);
+
+const keys = Object.assign({
   consumer_key: process.env.TWITTER_CONSUMER_KEY,
   consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
   access_token: process.env.TWITTER_ACCESS_TOKEN_KEY,
   access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-}, ifRequire('./secrets'));
+}, custom ? custom.keys : undefined);
 
-const unsetSecrets = falsyProps(secrets);
-if (unsetSecrets.length > 0) {
-  throw new Error(`Configuration error: secrets are unset: ${unsetSecrets.join(', ')}`);
+const unsetKeys = falsyProps(keys);
+if (unsetKeys.length > 0) {
+  throw new Error(`Configuration error: secrets are unset: ${unsetKeys.join(', ')}`);
 }
 
 module.exports = {
-  secrets,
+  db,
+  keys,
 };

@@ -52,7 +52,7 @@ class CheckFeatures {
 
 const stream = new TweetStreamer({
   processors: [new CheckFeatures()],
-  secrets: config.secrets,
+  keys: config.keys,
 });
 
 function end() {
