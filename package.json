@@ -29,6 +29,8 @@
   "dependencies": {
     "debug": "^2.6.3",
     "lodash.isfunction": "^3.0.8",
+    "pg": "^6.1.5",
+    "sequelize": "^3.30.4",
     "twit": "^2.2.5",
     "yargs": "^7.0.2"
   },

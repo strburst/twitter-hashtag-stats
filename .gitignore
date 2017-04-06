@@ -1,5 +1,5 @@
-# API tokens
-/secrets.js*
+# API keys and custom configuration
+/custom.js*
 
 # Logs
 logs
