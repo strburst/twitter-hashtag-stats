@@ -29,10 +29,7 @@
   "dependencies": {
     "debug": "^2.6.3",
     "lodash.isfunction": "^3.0.8",
-    "request": "^2.81.0",
-    "request-promise-native": "^1.0.3",
     "twit": "^2.2.5",
-    "twitter": "^1.7.0",
     "yargs": "^7.0.2"
   },
   "devDependencies": {
