@@ -1,7 +1,6 @@
 #!/usr/bin/env node
 /* eslint no-console: off */
 
-
 const TweetStreamer = require('./tweetstreamer');
 const config = require('./config');
 const debug = require('debug')('tss:example');
@@ -22,9 +21,9 @@ class CheckFeatures {
 
   process(tweet) {
     if (tweet.place) {
-      var hashtagList = tweet.entities.hashtags
-      for (var i = 0; i < hashtagList.length; i++) {
-        console.log('hashtag: ' + hashtagList[i]);
+      const hashtagList = tweet.entities.hashtags;
+      for (let i = 0; i < hashtagList.length; i += 1) {
+        console.log(`hashtag: ${hashtagList[i]}`);
         db.insertHashtagStats(tweet.place.country, hashtagList[i].text);
       }
     }
