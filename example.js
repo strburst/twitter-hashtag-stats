@@ -58,6 +58,7 @@ const stream = new TweetStreamer({
 function end() {
   debug('Received SIGINT or SIGTERM; stopping');
   stream.stop();
+  process.exit(0);
 }
 
 process.on('SIGINT', end);
