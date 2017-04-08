@@ -118,12 +118,9 @@ class HashtagStats {
    * It is formatted as a list of [country, hashtag, entry].
    */
   get() {
-    return new Promise((resolve, reject) => {
-      this.HashtagStats.findAll({ order: ['country', 'count'] }).then((fullList) => {
-        resolve(fullList.map(elem =>
-          [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
-      });
-    });
+    return this.HashtagStats.findAll({ order: ['country', 'count'] }).then(
+      fullList => fullList.map(elem =>
+       [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
   }
 
 }
@@ -185,11 +182,9 @@ class LanguageStats {
    * Returns a list of languages in order of use in tweets.
    */
   get() {
-    return new Promise((resolve, reject) => {
-      this.LanguageStats.findAll({ order: ['count'] }).then((fullList) => {
-        resolve(fullList.map(elem => [elem.dataValues.language, elem.dataValues.count]).reverse());
-      });
-    });
+    return this.LanguageStats.findAll({ order: ['count'] }).then(
+      fullList => fullList.map(elem =>
+        [elem.dataValues.language, elem.dataValues.count]).reverse());
   }
 
 }
