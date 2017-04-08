@@ -5,6 +5,7 @@
 
 const Sequelize = require('sequelize');
 
+
 /**
  * Store stats on whether certain data (e.g. location) is available in tweets.
  */
@@ -55,7 +56,7 @@ class HashtagStats {
 
   constructor(db) {
     this.HashtagStats = db.define('hashtagstats', {
-      countryCode: {
+      country: {
         type: Sequelize.STRING,
         primaryKey: true,
       },
@@ -73,7 +74,7 @@ class HashtagStats {
   }
 
   sync() {
-    this.HashtagStats.sync({ force: true });
+    this.HashtagStats.sync({ force: true }); // will always drop table and make a new one
   }
 
   drop() {
@@ -90,10 +91,10 @@ class HashtagStats {
     }
   }
 
-  insert(countryCode, hashtag) {
+  insert(country, hashtag) {
     this.HashtagStats.find({
       where: {
-        countryCode,
+        country,
         hashtag,
       },
     }).then((stat) => {
@@ -101,7 +102,7 @@ class HashtagStats {
         stat.increment('count');
       } else {
         const data = {
-          countryCode,
+          country,
           hashtag,
         };
         this.HashtagStats.create(data).then((row) => {
@@ -113,12 +114,81 @@ class HashtagStats {
 
   /**
    * Returns a list of all the trending hashtags and countries.
+   * The list is ordered by country, hashtags with highest count.
+   * It is formatted as a list of [country, hashtag, entry].
    */
   get() {
-    // TODO: implement this
+    return this.HashtagStats.findAll({ order: ['country', 'count'] }).then(
+      fullList => fullList.map(elem =>
+       [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
   }
 
 }
+
+/**
+ * List the most frequently used languages.
+ */
+class LanguageStats {
+
+  constructor(db) {
+    this.LanguageStats = db.define('languagestats', {
+      language: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+      },
+      count: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+      },
+    });
+
+    this.db = db;
+  }
+
+  sync() {
+    this.LanguageStats.sync({ force: true }); // will always drop table and make a new one
+  }
+
+  drop() {
+    this.LanguageStats.drop();
+  }
+
+  process(tweet) {
+    if (tweet.lang) {
+      this.insert(tweet.lang);
+    }
+  }
+
+  insert(language) {
+    this.LanguageStats.find({
+      where: {
+        language,
+      },
+    }).then((stat) => {
+      if (stat) {
+        stat.increment('count');
+      } else {
+        const data = {
+          language,
+        };
+        this.LanguageStats.create(data).then((row) => {
+          console.log(`Tweet: ${row}`);
+        });
+      }
+    });
+  }
+
+  /**
+   * Returns a list of languages in order of use in tweets.
+   */
+  get() {
+    return this.LanguageStats.findAll({ order: ['count'] }).then(
+      fullList => fullList.map(elem =>
+        [elem.dataValues.language, elem.dataValues.count]).reverse());
+  }
+
+}
+
 
 /**
  * Store a raw tweet, without any processing.
@@ -169,8 +239,10 @@ class TweetStorer {
 
 }
 
+
 module.exports = {
   FeatureChecker,
   HashtagStats,
+  LanguageStats,
   // TweetStorer,
 };
