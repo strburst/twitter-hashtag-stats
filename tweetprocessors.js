@@ -75,7 +75,7 @@ class HashtagStats {
   }
 
   sync() {
-    this.HashtagStats.sync({ force: true });
+    this.HashtagStats.sync({ force: true }); // will always drop table and make a new one
   }
 
   drop() {
@@ -116,25 +116,17 @@ class HashtagStats {
   /**
    * Returns a list of all the trending hashtags and countries.
    * The list is ordered by country, hashtags with highest count.
-   * It is formattd as a list of [country, hashtag, entry].
+   * It is formatted as a list of [country, hashtag, entry].
    */
   get() {
-    this.HashtagStats.findAll({order: ['country', 'count']}).then(full_list => {
-      var country_list = [];
-      for (var i = 0; i < full_list.length; i++) {
-        var country = full_list[i].dataValues.country;
-        var hashtag = full_list[i].dataValues.hashtag;
-        var count = full_list[i].dataValues.count;
-        var entry = Object.freeze([country, hashtag, count]);
-        country_list.push(entry);
-      }
-      return country_list.reverse();
+    return new Promise((resolve, reject) => {
+      this.HashtagStats.findAll({order: ['country', 'count']}).then(full_list => {
+        resolve(full_list.map(elem => [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
+      });
     });
-
   }
 
 }
-
 
 /**
  * List the most frequently used languages.
@@ -193,17 +185,11 @@ class LanguageStats {
    * Returns a list of languages in order of use in tweets.
    */
   get() {
-    this.LanguageStats.findAll({order: ['count']}).then(full_list => {
-      var language_list = [];
-      for (var i = 0; i < full_list.length; i++) {
-        var language_list = full_list[i].dataValues.language;
-        var count = full_list[i].dataValues.count;
-        var entry = Object.freeze([language, count]);
-        language_list.push(entry);
-      }
-      return language_list.reverse();
+    return new Promise((resolve, reject) => {
+      this.LanguageStats.findAll({order: ['count']}).then(full_list => {
+        resolve(full_list.map(elem => [elem.dataValues.language, elem.dataValues.count]).reverse());
+      });
     });
-
   }
 
 }

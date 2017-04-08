@@ -7,7 +7,7 @@ const { ifRequire, falsyProps } = require('./util');
 const custom = ifRequire('./custom');
 
 const db = Object.assign({
-  name: 'christineshih', // CHANGE BACK TO tss
+  name: 'tss',
   host: 'localhost',
   dialect: 'postgres',
 }, custom ? custom.db : undefined);
