@@ -4,6 +4,8 @@
 /* eslint class-methods-use-this: off */
 
 const Sequelize = require('sequelize');
+const dbs = require('./db');
+
 
 /**
  * Store stats on whether certain data (e.g. location) is available in tweets.
@@ -55,7 +57,7 @@ class HashtagStats {
 
   constructor(db) {
     this.HashtagStats = db.define('hashtagstats', {
-      countryCode: {
+      country: {
         type: Sequelize.STRING,
         primaryKey: true,
       },
@@ -90,10 +92,10 @@ class HashtagStats {
     }
   }
 
-  insert(countryCode, hashtag) {
+  insert(country, hashtag) {
     this.HashtagStats.find({
       where: {
-        countryCode,
+        country,
         hashtag,
       },
     }).then((stat) => {
@@ -101,7 +103,7 @@ class HashtagStats {
         stat.increment('count');
       } else {
         const data = {
-          countryCode,
+          country,
           hashtag,
         };
         this.HashtagStats.create(data).then((row) => {
@@ -113,12 +115,99 @@ class HashtagStats {
 
   /**
    * Returns a list of all the trending hashtags and countries.
+   * The list is ordered by country, hashtags with highest count.
+   * It is formattd as a list of [country, hashtag, entry].
    */
   get() {
-    // TODO: implement this
+    this.HashtagStats.findAll({order: ['country', 'count']}).then(full_list => {
+      var country_list = [];
+      for (var i = 0; i < full_list.length; i++) {
+        var country = full_list[i].dataValues.country;
+        var hashtag = full_list[i].dataValues.hashtag;
+        var count = full_list[i].dataValues.count;
+        var entry = Object.freeze([country, hashtag, count]);
+        country_list.push(entry);
+      }
+      return country_list.reverse();
+    });
+
   }
 
 }
+
+
+/**
+ * List the most frequently used languages.
+ */
+class LanguageStats {
+
+  constructor(db) {
+    this.LanguageStats = db.define('languagestats', {
+      language: {
+        type: Sequelize.STRING,
+        primaryKey: true,
+      },
+      count: {
+        type: Sequelize.INTEGER,
+        defaultValue: 1,
+      },
+    });
+
+    this.db = db;
+  }
+
+  sync() {
+    this.LanguageStats.sync({ force: true }); // will always drop table and make a new one
+  }
+
+  drop() {
+    this.LanguageStats.drop();
+  }
+
+  process(tweet) {
+    if (tweet.lang) {
+      this.insert(tweet.lang);
+    }
+  }
+
+  insert(language) {
+    this.LanguageStats.find({
+      where: {
+        language,
+      },
+    }).then((stat) => {
+      if (stat) {
+        stat.increment('count');
+      } else {
+        const data = {
+          language,
+        };
+        this.LanguageStats.create(data).then((row) => {
+          console.log(`Tweet: ${row}`);
+        });
+      }
+    });
+  }
+
+  /**
+   * Returns a list of languages in order of use in tweets.
+   */
+  get() {
+    this.LanguageStats.findAll({order: ['count']}).then(full_list => {
+      var language_list = [];
+      for (var i = 0; i < full_list.length; i++) {
+        var language_list = full_list[i].dataValues.language;
+        var count = full_list[i].dataValues.count;
+        var entry = Object.freeze([language, count]);
+        language_list.push(entry);
+      }
+      return language_list.reverse();
+    });
+
+  }
+
+}
+
 
 /**
  * Store a raw tweet, without any processing.
@@ -169,8 +258,10 @@ class TweetStorer {
 
 }
 
+
 module.exports = {
   FeatureChecker,
   HashtagStats,
+  LanguageStats,
   // TweetStorer,
 };
