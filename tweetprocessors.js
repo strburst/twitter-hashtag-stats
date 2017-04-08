@@ -4,7 +4,6 @@
 /* eslint class-methods-use-this: off */
 
 const Sequelize = require('sequelize');
-const dbs = require('./db');
 
 
 /**
@@ -120,8 +119,9 @@ class HashtagStats {
    */
   get() {
     return new Promise((resolve, reject) => {
-      this.HashtagStats.findAll({order: ['country', 'count']}).then(full_list => {
-        resolve(full_list.map(elem => [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
+      this.HashtagStats.findAll({ order: ['country', 'count'] }).then((fullList) => {
+        resolve(fullList.map(elem =>
+          [elem.dataValues.country, elem.dataValues.hashtag, elem.dataValues.count]).reverse());
       });
     });
   }
@@ -186,8 +186,8 @@ class LanguageStats {
    */
   get() {
     return new Promise((resolve, reject) => {
-      this.LanguageStats.findAll({order: ['count']}).then(full_list => {
-        resolve(full_list.map(elem => [elem.dataValues.language, elem.dataValues.count]).reverse());
+      this.LanguageStats.findAll({ order: ['count'] }).then((fullList) => {
+        resolve(fullList.map(elem => [elem.dataValues.language, elem.dataValues.count]).reverse());
       });
     });
   }
