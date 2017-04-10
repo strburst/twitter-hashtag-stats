@@ -6,7 +6,7 @@ const config = require('./config');
 const yargs = require('yargs');
 
 // Set up the connection with db
-const db = new Sequelize(config.db.name, config.db.username, config.db.password, config.db);
+const db = new Sequelize(config.db.name, config.db.username, config.db.password, config.db.options);
 
 const create = null;
 const drop = null;

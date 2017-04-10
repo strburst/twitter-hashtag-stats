@@ -8,8 +8,10 @@ const custom = ifRequire('./custom');
 
 const db = Object.assign({
   name: 'tss',
-  host: 'localhost',
-  dialect: 'postgres',
+  options: {
+    host: 'localhost',
+    dialect: 'postgres',
+  },
 }, custom ? custom.db : undefined);
 
 const keys = Object.assign({
