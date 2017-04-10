@@ -7,6 +7,7 @@ const { ifRequire, falsyProps } = require('./util');
 const custom = ifRequire('./custom');
 
 const db = Object.assign({
+  clear: true,
   name: 'tss',
   options: {
     host: 'localhost',

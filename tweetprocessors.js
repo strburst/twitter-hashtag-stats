@@ -4,6 +4,7 @@
 /* eslint class-methods-use-this: off */
 
 const Sequelize = require('sequelize');
+const config = require('./config');
 
 
 /**
@@ -74,7 +75,7 @@ class HashtagStats {
   }
 
   sync() {
-    this.HashtagStats.sync({ force: true }); // will always drop table and make a new one
+    this.HashtagStats.sync({ force: config.db.clear });
   }
 
   drop() {
@@ -146,7 +147,7 @@ class LanguageStats {
   }
 
   sync() {
-    this.LanguageStats.sync({ force: true }); // will always drop table and make a new one
+    this.LanguageStats.sync({ force: config.db.clear });
   }
 
   drop() {
@@ -217,7 +218,7 @@ class TweetStorer {
   }
 
   sync() {
-    this.Tweet.sync({ force: true });
+    this.Tweet.sync({ force: config.db.clear });
   }
 
   process(tweet) {
