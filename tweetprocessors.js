@@ -86,7 +86,6 @@ class HashtagStats {
     if (tweet.place) {
       const hashtagList = tweet.entities.hashtags;
       for (let i = 0; i < hashtagList.length; i += 1) {
-        console.log(`hashtag: ${hashtagList[i]}`);
         this.insert(tweet.place.country_code, hashtagList[i].text);
       }
     }
@@ -106,9 +105,7 @@ class HashtagStats {
           country,
           hashtag,
         };
-        this.HashtagStats.create(data).then((row) => {
-          console.log(`Tweet: ${row}`);
-        });
+        this.HashtagStats.create(data);
       }
     });
   }
@@ -172,9 +169,7 @@ class LanguageStats {
         const data = {
           language,
         };
-        this.LanguageStats.create(data).then((row) => {
-          console.log(`Tweet: ${row}`);
-        });
+        this.LanguageStats.create(data);
       }
     });
   }
@@ -233,9 +228,7 @@ class TweetStorer {
       timestamp: new Date(created_at),
     };
 
-    this.Tweet.create(data).then((tweet) => {
-      console.log(`Tweet: ${tweet}`);
-    });
+    this.Tweet.create(data);
   }
 
 }
