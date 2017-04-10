@@ -3,6 +3,7 @@
  */
 
 const { ifRequire, falsyProps } = require('./util');
+const debug = require('debug')('tss:orm');
 
 const custom = ifRequire('./custom');
 
@@ -10,8 +11,9 @@ const db = Object.assign({
   clear: true,
   name: 'tss',
   options: {
-    host: 'localhost',
     dialect: 'postgres',
+    host: 'localhost',
+    logging: debug,
   },
 }, custom ? custom.db : undefined);
 
