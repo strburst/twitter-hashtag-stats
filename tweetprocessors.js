@@ -5,6 +5,7 @@
 
 const Sequelize = require('sequelize');
 const config = require('./config');
+const debugCreate = require('debug');
 
 
 /**
@@ -13,13 +14,14 @@ const config = require('./config');
 class FeatureChecker {
 
   constructor(db) {
-    this.db = db;
-
     this.coordCount = 0;
     this.hashtagAndPlaceCount = 0;
     this.hashtagCount = 0;
     this.placeCount = 0;
     this.tweetCount = 0;
+
+    this.db = db;
+    this.debug = debugCreate('tss:tp:FeatureChecker');
   }
 
   sync() {
@@ -44,7 +46,7 @@ class FeatureChecker {
   }
 
   stop() {
-    console.log(`Of ${this.tweetCount} tweets, ${this.coordCount} have exact coordinates, ` +
+    this.debug(`Of ${this.tweetCount} tweets, ${this.coordCount} have exact coordinates, ` +
       `${this.placeCount} have a place associated, ${this.hashtagCount} have hashtags, and ` +
       `${this.hashtagAndPlaceCount} have both hashtags and a place`);
   }
@@ -72,6 +74,7 @@ class HashtagStats {
     });
 
     this.db = db;
+    this.debug = debugCreate('tss:tp:HashtagStats');
   }
 
   sync() {
@@ -84,10 +87,10 @@ class HashtagStats {
 
   process(tweet) {
     if (tweet.place) {
-      const hashtagList = tweet.entities.hashtags;
-      for (let i = 0; i < hashtagList.length; i += 1) {
-        this.insert(tweet.place.country_code, hashtagList[i].text);
-      }
+      (tweet.entities.hashtags || []).forEach((hashtag) => {
+        this.debug(`Found hashtag #${hashtag.text} in ${tweet.place.country_code}`);
+        this.insert(tweet.place.country_code, hashtag.text);
+      });
     }
   }
 
@@ -141,6 +144,7 @@ class LanguageStats {
     });
 
     this.db = db;
+    this.debug = debugCreate('tss:tp:LanguageStats');
   }
 
   sync() {
@@ -210,6 +214,7 @@ class TweetStorer {
     });
 
     this.db = db;
+    this.debug = debugCreate('tss:tp:TweetStorer');
   }
 
   sync() {
