@@ -2,8 +2,8 @@
 /* eslint no-console: "off" */
 
 const TweetStreamer = require('./tweetstreamer');
-const config = require('./config');
-const db = require('./db');
+const config = require('../config');
+const db = require('../db');
 const debug = require('debug')('tss:example');
 const tweetprocessors = require('./tweetprocessors');
 
