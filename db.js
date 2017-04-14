@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint no-unused-expressions: off */
+/* eslint no-unused-expressions: "off" */
 
 const Sequelize = require('sequelize');
 const config = require('./config');

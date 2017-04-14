@@ -1,7 +1,7 @@
 /**
  * Wrap twit package to handle tweets in a uniform way.
  */
-/* eslint no-console: off */
+/* eslint no-console: "off" */
 
 const debug = require('debug')('tss:streamer');
 const isFunction = require('lodash.isfunction');

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/* eslint no-console: off */
+/* eslint no-console: "off" */
 
 const TweetStreamer = require('./tweetstreamer');
 const config = require('./config');

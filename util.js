@@ -1,7 +1,7 @@
 /**
  * Miscellaneous utility functions/classes.
  */
-/* eslint global-require: off, import/no-dynamic-require: off */
+/* eslint global-require: "off", import/no-dynamic-require: "off" */
 
 /**
  * Attempt to require(module) and return the result if successful; otherwise

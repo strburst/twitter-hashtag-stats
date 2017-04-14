@@ -1,7 +1,7 @@
 /**
  * File for processor plugins to TweetStreamer.
  */
-/* eslint class-methods-use-this: off */
+/* eslint class-methods-use-this: "off" */
 
 const Sequelize = require('sequelize');
 const config = require('./config');
