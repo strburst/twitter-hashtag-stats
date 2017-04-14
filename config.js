@@ -10,9 +10,11 @@ const custom = ifRequire('./custom');
 const db = Object.assign({
   clear: true,
   name: 'tss',
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
   options: {
     dialect: 'postgres',
-    host: 'localhost',
+    host: process.env.DB_HOST || 'localhost',
     logging: debug,
   },
 }, custom ? custom.db : undefined);
