@@ -95,20 +95,14 @@ class HashtagStats {
   }
 
   insert(country, hashtag) {
-    this.HashtagStats.find({
+    this.HashtagStats.findOrCreate({
       where: {
         country,
         hashtag,
       },
-    }).then((stat) => {
-      if (stat) {
-        stat.increment('count');
-      } else {
-        const data = {
-          country,
-          hashtag,
-        };
-        this.HashtagStats.create(data);
+    }).spread((input, created) => {
+      if (!created) {
+        input.increment('count');
       }
     });
   }
@@ -162,18 +156,13 @@ class LanguageStats {
   }
 
   insert(language) {
-    this.LanguageStats.find({
+    this.LanguageStats.findOrCreate({
       where: {
         language,
       },
-    }).then((stat) => {
-      if (stat) {
-        stat.increment('count');
-      } else {
-        const data = {
-          language,
-        };
-        this.LanguageStats.create(data);
+    }).spread((input, created) => {
+      if (!created) {
+        input.increment('count');
       }
     });
   }
