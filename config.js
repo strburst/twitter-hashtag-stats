@@ -1,5 +1,5 @@
 /**
- * Attempt to read API tokens from secrets.js(on)?, then environment variables.
+ * Attempt to read configuration and API tokens from custom.js(on)?, then environment variables.
  */
 
 const { ifRequire, falsyProps } = require('./util');
