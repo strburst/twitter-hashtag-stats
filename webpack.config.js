@@ -10,6 +10,7 @@ const extractSass = new ExtractTextPlugin({
 });
 
 module.exports = {
+  devtool: 'source-map',
   entry: './server/js/index.js',
   module: {
     rules: [
@@ -17,9 +18,9 @@ module.exports = {
         test: /\.s[ac]ss$/,
         use: extractSass.extract({
           use: [
-            { loader: 'css-loader' },
-            { loader: 'postcss-loader' },
-            { loader: 'sass-loader' },
+            { loader: 'css-loader', options: { sourceMap: true } },
+            { loader: 'postcss-loader', options: { sourceMap: true } },
+            { loader: 'sass-loader', options: { sourceMap: true } },
           ],
         }),
       },
