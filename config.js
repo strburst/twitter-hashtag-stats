@@ -9,7 +9,7 @@ const fs = require('fs');
 const custom = JSON.parse(fs.readFileSync('./custom.json'));
 
 function checkKeys(name, config) {
-  const unsetKeys = Object.getOwnPropertyNames(config).filter(prop => !config[prop]);
+  const unsetKeys = Object.getOwnPropertyNames(config).filter(prop => config[prop] === undefined);
   if (unsetKeys.length > 0) {
     console.error(`Configuration error: '${name}' has unset keys: ${unsetKeys.join(', ')}`);
     process.exit(1);
