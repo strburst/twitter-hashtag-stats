@@ -5,12 +5,15 @@
   "private": true,
   "main": "index.js",
   "scripts": {
+    "clean": "rimraf server/dist",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "prebuild": "npm run lint",
+    "prebuild": "npm run lint && npm run clean",
     "build": "webpack",
     "pretest": "npm run build",
-    "test": "true"
+    "test": "true",
+    "prewatch": "npm run prebuild",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -42,9 +45,14 @@
     "yargs": "^7.0.2"
   },
   "devDependencies": {
+    "css-loader": "^0.28.0",
     "eslint": "^3.18.0",
     "eslint-config-airbnb-base": "^11.1.1",
     "eslint-plugin-import": "^2.2.0",
+    "extract-text-webpack-plugin": "^2.1.0",
+    "node-sass": "^4.5.2",
+    "rimraf": "^2.6.1",
+    "sass-loader": "^6.0.3",
     "webpack": "^2.4.1"
   }
 }
