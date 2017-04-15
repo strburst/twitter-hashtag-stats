@@ -5,6 +5,7 @@
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
+const webpack = require('webpack');
 
 const extractSass = new ExtractTextPlugin({
   filename: '[name].css',
@@ -12,7 +13,7 @@ const extractSass = new ExtractTextPlugin({
 
 module.exports = {
   devtool: 'source-map',
-  entry: './server/js/index.js',
+  entry: './server/js/main.js',
   module: {
     rules: [
       {
@@ -38,11 +39,16 @@ module.exports = {
     ],
   },
   output: {
-    filename: 'bundle.js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'server', 'dist'),
   },
   plugins: [
     extractSass,
     new UglifyJSPlugin({ sourceMap: true }),
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'vendor',
+      // Vendor bundle only includes npm dependencies
+      minChunks: module => module.context && module.context.match(/\/node_modules\//),
+    }),
   ],
 };
