@@ -1,6 +1,9 @@
 # API keys and custom configuration
 /custom.js*
 
+# Compiled frontend assets
+/server/dist
+
 # Logs
 logs
 *.log

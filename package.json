@@ -7,7 +7,9 @@
   "scripts": {
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "pretest": "npm run lint",
+    "prebuild": "npm run lint",
+    "build": "webpack",
+    "pretest": "npm run build",
     "test": "true"
   },
   "repository": {
@@ -42,6 +44,7 @@
   "devDependencies": {
     "eslint": "^3.18.0",
     "eslint-config-airbnb-base": "^11.1.1",
-    "eslint-plugin-import": "^2.2.0"
+    "eslint-plugin-import": "^2.2.0",
+    "webpack": "^2.4.1"
   }
 }
