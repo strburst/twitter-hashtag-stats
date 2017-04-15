@@ -37,7 +37,13 @@ const keys = Object.assign({
 }, custom ? custom.keys : null);
 checkKeys('keys', keys);
 
+const server = Object.assign({
+  port: process.env.PORT || 3000,
+}, custom ? custom.server : null);
+checkKeys('server', server);
+
 module.exports = {
   db,
   keys,
+  server,
 };
