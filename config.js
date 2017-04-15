@@ -3,13 +3,13 @@
  */
  /* eslint no-console: "off" */
 
-const { ifRequire, falsyProps } = require('./util');
 const debug = require('debug')('tss:orm');
+const fs = require('fs');
 
-const custom = ifRequire('./custom');
+const custom = JSON.parse(fs.readFileSync('./custom.json'));
 
 function checkKeys(name, config) {
-  const unsetKeys = falsyProps(config);
+  const unsetKeys = Object.getOwnPropertyNames(config).filter(prop => !config[prop]);
   if (unsetKeys.length > 0) {
     console.error(`Configuration error: '${name}' has unset keys: ${unsetKeys.join(', ')}`);
     process.exit(1);
