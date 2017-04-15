@@ -3,6 +3,7 @@
  */
 
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const path = require('path');
 
 const extractSass = new ExtractTextPlugin({
@@ -24,6 +25,16 @@ module.exports = {
           ],
         }),
       },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['env'],
+          },
+        },
+      },
     ],
   },
   output: {
@@ -32,5 +43,6 @@ module.exports = {
   },
   plugins: [
     extractSass,
+    new UglifyJSPlugin({ sourceMap: true }),
   ],
 };
