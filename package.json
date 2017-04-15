@@ -27,9 +27,14 @@
   },
   "homepage": "https://github.com/strburst/twitter-hashtag-stats#readme",
   "dependencies": {
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
     "debug": "^2.6.3",
+    "express": "^4.15.2",
     "lodash.isfunction": "^3.0.8",
+    "morgan": "^1.8.1",
     "pg": "^6.1.5",
+    "pug": "^2.0.0-beta11",
     "sequelize": "^3.30.4",
     "twit": "^2.2.5",
     "yargs": "^7.0.2"
