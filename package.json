@@ -1,7 +1,7 @@
 {
   "name": "twitter-hashtag-stats",
   "version": "0.0.1",
-  "description": "App for computing some interesting stats about hashtags using Twitter's API",
+  "description": "App for computing some interesting stats using Twitter's streaming API",
   "private": true,
   "main": "index.js",
   "scripts": {
