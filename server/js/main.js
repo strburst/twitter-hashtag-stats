@@ -2,13 +2,9 @@
 
 require('../sass/main.scss');
 
-const str = 'world';
-console.log(`hello there ${str}`);
-
 function checkCountry(result) {
   return this === result[0];
 }
-
 
 function eachCountry(code) {
   const h = JSON.parse($('#data').text());
@@ -22,7 +18,6 @@ function eachCountry(code) {
     returned = `${returned + filtered[i][1]}: ${filtered[i][2]}\n`;
   }
   return returned;
-  // console.log(returned);
 }
 
 $(() => {

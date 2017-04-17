@@ -10,7 +10,7 @@ const hs = new HashtagStats(db);
 router.get('/', (req, res, next) => {
   hs.get().then((data) => {
     res.render('hashtagstats', {
-      title: 'Twitter Visualization: Hashtag Stats',
+      title: 'Frequent Hashtags by Country',
       data: JSON.stringify(data),
     });
   });

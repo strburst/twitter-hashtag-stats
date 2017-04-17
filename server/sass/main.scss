@@ -1,12 +1,27 @@
+$normal: #50cc82;
+$light: #abf0c7;
+
 body {
-    background-color: #50cc82;
+    background-color: $normal;
+    margin: 5%;
 }
+
+a, a:visited {
+    color: $light;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 h1 {
     font-size: 3em;
     text-align: center;
     font-family: helvetica;
     color: #333;
 }
+
 #world-map{
     margin-left: 5%;
 }
