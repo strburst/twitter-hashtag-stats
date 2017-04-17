@@ -120,6 +120,7 @@ class HashtagStats {
 
 }
 
+
 /**
  * List the most frequently used languages.
  */

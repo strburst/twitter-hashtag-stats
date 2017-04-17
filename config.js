@@ -17,7 +17,7 @@ function checkKeys(name, config) {
 }
 
 const db = Object.assign({
-  clear: true,
+  clear: false,
   name: 'tss',
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
