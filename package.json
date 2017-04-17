@@ -15,7 +15,9 @@
     "prewatch": "npm run prebuild",
     "watch": "webpack --watch",
     "precommit": "npm test",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "scanner": "node scanner/index.js",
+    "server": "node server/index.js"
   },
   "repository": {
     "type": "git",
