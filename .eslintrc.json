@@ -1,6 +1,7 @@
 {
   "extends": "airbnb-base",
   "rules": {
-    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }]
+    "no-unused-vars": ["warn", { "vars": "local", "args": "none" }],
+    "no-mixed-operators": "off"
   }
 }

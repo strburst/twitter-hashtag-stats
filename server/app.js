@@ -10,6 +10,7 @@ const morgan = require('morgan');
 const path = require('path');
 
 const hashtagstats = require('./routes/hashtagstats');
+const languagestats = require('./routes/languagestats');
 const index = require('./routes/index');
 const users = require('./routes/users');
 
@@ -30,6 +31,7 @@ app.use(morgan(app.get('env') === 'development' ? 'dev' : 'common'));
 
 app.use('/', index);
 app.use('/hashtagstats', hashtagstats);
+app.use('/languagestats', languagestats);
 app.use('/users', users);
 
 // Catch 404 and forward to error handler

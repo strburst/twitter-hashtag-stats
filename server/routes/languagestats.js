@@ -1,17 +1,17 @@
 const express = require('express');
-const { HashtagStats } = require('../../scanner/tweetprocessors');
+const { LanguageStats } = require('../../scanner/tweetprocessors');
 const db = require('../../db');
 
 const router = express.Router();
 
-const hs = new HashtagStats(db);
+const ls = new LanguageStats(db);
 
 /* GET home page. */
 router.get('/', (req, res, next) => {
-  hs.get().then((data) => {
-    res.render('hashtagstats', {
-      pageclass: 'hashtagstats',
-      title: 'Frequent Hashtags by Country',
+  ls.get().then((data) => {
+    res.render('languagestats', {
+      pageclass: 'languagestats',
+      title: 'Language frequency',
       data: JSON.stringify(data),
     });
   });
