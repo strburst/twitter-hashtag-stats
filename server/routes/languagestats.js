@@ -14,6 +14,12 @@ router.get('/', (req, res, next) => {
       title: 'Language frequency',
       data: JSON.stringify(data),
     });
+  }).catch((error) => {
+    res.status(500);
+    res.render('error', {
+      error,
+      message: 'An error occured when querying the database',
+    });
   });
 });
 
