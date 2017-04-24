@@ -17,7 +17,9 @@
     "prepush": "npm test",
     "scanner": "node scanner/index.js",
     "server": "node server/index.js",
-    "start": "concurrently --kill-others \"npm run scanner\" \"npm run server\""
+    "prestart": "npm run build",
+    "start": "concurrently --kill-others \"npm run scanner\" \"npm run server\"",
+    "qstart": "concurrently --kill-others \"npm run scanner\" \"npm run server\""
   },
   "repository": {
     "type": "git",
