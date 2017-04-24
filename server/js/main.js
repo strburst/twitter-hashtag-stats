@@ -40,6 +40,9 @@ function languageName(code) {
   if (code === 'und') {
     return 'Unknown';
   }
+  if (code === 'in') { // 'id' is standard for Indonesian
+    return 'Indonesian';
+  }
   const language = langs.where('1', code);
   return language ? language.name : code;
 }
