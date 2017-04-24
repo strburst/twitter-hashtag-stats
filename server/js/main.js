@@ -69,15 +69,11 @@ function getColors(n) {
 function languageDataTranform() {
   const rawData = JSON.parse($('#languagestats-data').text());
 
-  const sum = rawData.map(([lang, num]) => num).reduce((n1, n2) => n1 + n2);
-
   const labels = [];
   const data = [];
   rawData.forEach(([lang, num]) => {
     labels.push(languageName(lang));
-    // Raw language code
-    // labels.push(lang);
-    data.push(Math.round(num / sum * 10000) / 100);
+    data.push(num);
   });
 
   return {

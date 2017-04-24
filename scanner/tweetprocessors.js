@@ -172,9 +172,11 @@ class LanguageStats {
    * Returns a list of languages in order of use in tweets.
    */
   get() {
-    return this.LanguageStats.findAll({ order: ['count'] }).then(
-      fullList => fullList.map(elem =>
-        [elem.dataValues.language, elem.dataValues.count]).reverse());
+    const pTopCounts = this.LanguageStats.findAll({ limit: 20, order: [['count', 'DESC']] });
+    const pTotalCount = this.LanguageStats.sum('count');
+    return Promise.all([pTopCounts, pTotalCount]).then(
+      ([fullList, totalCount]) => fullList.map(elem =>
+        [elem.dataValues.language, elem.dataValues.count / totalCount * 100]));
   }
 
 }
